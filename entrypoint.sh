@@ -29,11 +29,6 @@ if [[ ! -e $pkgbuild_dir/PKGBUILD ]]; then
     exit 1
 fi
 
-if [[ ! -e $pkgbuild_dir/.SRCINFO ]]; then
-    echo "$pkgbuild_dir does not contain a .SRCINFO file."
-    exit 1
-fi
-
 getfacl -p -R "$pkgbuild_dir" /github/home > /tmp/arch-pkgbuild-builder-permissions.bak
 
 # '/github/workspace' is mounted as a volume and has owner set to root
@@ -49,30 +44,12 @@ echo "keyserver hkp://keyserver.ubuntu.com:80" | tee /github/home/.gnupg/gpg.con
 
 cd "$pkgbuild_dir"
 
-pkgname=$(grep -E 'pkgname' .SRCINFO | sed -e 's/.*= //')
-
-install_deps() {
-    # install all package dependencies
-    grep -E 'depends' .SRCINFO | \
-        sed -e 's/.*depends = //' -e 's/:.*//' | \
-        xargs yay -S --noconfirm
-}
 
 case $target in
     pkgbuild)
-        namcap PKGBUILD
-        install_deps
         makepkg --syncdeps --noconfirm
-
-        # shellcheck disable=SC1091
-        source /etc/makepkg.conf # get PKGEXT
-
-        namcap "${pkgname}"-*"${PKGEXT}"
-        pacman -Qip "${pkgname}"-*"${PKGEXT}"
-        pacman -Qlp "${pkgname}"-*"${PKGEXT}"
         ;;
     run)
-        install_deps
         makepkg --syncdeps --noconfirm --install
         eval "$command"
         ;;

@@ -1,4 +1,4 @@
-FROM martynas/archlinux:latest
+FROM whynothugo/makepkg:latest
 
 COPY entrypoint.sh /entrypoint.sh
 
