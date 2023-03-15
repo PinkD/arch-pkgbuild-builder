@@ -3,7 +3,7 @@
 # fail whole script if any command fails
 set -e
 
-DEBUG=$4
+DEBUG=$5
 
 if [[ -n $DEBUG  && $DEBUG = true ]]; then
     set -x
@@ -12,6 +12,13 @@ fi
 target=$1
 pkgname=$2
 command=$3
+mirror=$4
+
+if [[ -n $mirror ]]; then
+    echo "using mirror server: $mirror"
+    echo "Server = $mirror" | sudo tee /etc/pacman.d/mirrorlist > /dev/zero
+fi
+
 
 # assumes that package files are in a subdirectory
 # of the same name as "pkgname", so this works well

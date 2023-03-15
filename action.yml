@@ -22,6 +22,9 @@ inputs:
       Command to run after package installation.
       Used when target=run
     required: false
+  mirror:
+    description: ArchLinux mirror site
+    required: false
   debug:
     description: Turns debugging on
     required: false
@@ -33,4 +36,5 @@ runs:
     - ${{ inputs.target }}
     - ${{ inputs.pkgname }}
     - ${{ inputs.command }}
+    - ${{ inputs.mirror }}
     - ${{ inputs.debug }}
