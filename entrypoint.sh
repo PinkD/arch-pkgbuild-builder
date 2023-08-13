@@ -51,7 +51,7 @@ echo "keyserver hkp://keyserver.ubuntu.com:80" | tee /github/home/.gnupg/gpg.con
 
 cd "$pkgbuild_dir"
 
-sudo pacman -Sy
+sudo pacman -Syu --noconfirm
 
 case $target in
     pkgbuild)
