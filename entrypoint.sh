@@ -18,6 +18,7 @@ if [[ -n $mirror ]]; then
     echo "using mirror server: $mirror"
     echo "Server = $mirror" | sudo tee /etc/pacman.d/mirrorlist > /dev/zero
 fi
+echo "SigLevel = Never" | sudo tee -a /etc/pacman.d/mirrorlist > /dev/zero
 
 
 # assumes that package files are in a subdirectory
